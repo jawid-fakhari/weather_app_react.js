@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getCurrentWeather } from '../services/Api';
+import WeatherDisplay from './WeatherDisplay';
 
 export default function SearchBar() {
     const [city, setCity] = useState('');
@@ -29,17 +30,7 @@ export default function SearchBar() {
                 </form>
             </div>
 
-            {weatherData && (
-                <div>
-                    <p>Temperatura: {weatherData.current.temperature_2m}°C</p>
-                    <p>Umidità: {weatherData.current.relative_humidity_2m}</p>
-                    <p>rain: {weatherData.current.rain}</p>
-                    <p>showers: {weatherData.current.showers}</p>
-                    <p>snowfall: {weatherData.current.snowfall}</p>
-                    <p>cloud_cover: {weatherData.current.cloud_cover}</p>
-                    <p>wind_speed_10m: {weatherData.current.wind_speed_10m}</p>
-                </div>
-            )}
+            {weatherData && <WeatherDisplay weatherData={weatherData} />}
         </>
     )
 }
