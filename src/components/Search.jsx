@@ -21,12 +21,12 @@ export default function Search() {
             });
     }
 
-    const addToFavoriteCities = (city, weatherData) => {
+    const addToFavoriteCities = (city, weatherDataInfo) => {
         const isAlreadyFavorite = favoriteCities.some(fav => fav.city === city);
         // verifica se la città è già nella lista dei preferiti
         if (!isAlreadyFavorite) {
-            // aggiungi la città alla lista dei preferiti
-            setFavoriteCities(prevFavorites => [...favoriteCities, { city, weatherData }]);
+            // aggiungi la città alla lista dei preferiti con i dati ricevuti dal weatherDisplay
+            setFavoriteCities(prevFavorites => [...favoriteCities, { city, weatherDataInfo }]);
         }
     }
 

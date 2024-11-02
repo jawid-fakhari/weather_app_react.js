@@ -11,10 +11,10 @@ export default function WeatherDisplay({ city, weatherData, addToFavoriteCities 
             Neve: [71, 73, 75, 77, 85, 86] // Neve
         }
 
+        // Cerca la condizione macro nella mappa condizioni
         const condition = Object.keys(macroCondition).find(condition => macroCondition[condition].includes(weatherCode)) || "Condizione non riconosciuta";
 
         return condition;
-
     }
 
     const weatherDataInfo = {
@@ -26,7 +26,8 @@ export default function WeatherDisplay({ city, weatherData, addToFavoriteCities 
 
     // funzione per salvare la città preferita con i dati del weather
     const addButtonHandler = () => {
-        addToFavoriteCities(city, weatherData) // aggingi la città preferita con i dati del weather
+        // Passa city e weatherDataInfo tramite callback function al Search (addToFavoriteCities)
+        addToFavoriteCities(city, weatherDataInfo)
     }
 
     return (
