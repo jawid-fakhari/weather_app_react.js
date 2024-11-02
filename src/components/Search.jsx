@@ -43,60 +43,44 @@ export default function Search() {
 
     return (
         <>
-            <div className="
-                max-w-lg mx-auto 
-                mt-20 p-4 
-                bg-white 
-                shadow-lg 
-                rounded-lg
-                "
-            >
+            <div className="max-w-5xl mx-auto mt-10 p-4 bg-gray-50">
+                {/* Contenitore a due colonne */}
+                <div className="flex flex-col lg:flex-row gap-8">
+                    {/* Colonna sinistra */}
+                    <div className="lg:w-2/3 bg-white p-6 rounded-lg shadow-lg">
+                        <form onSubmit={handleSubmit} className="mb-6">
+                            <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                                <input
+                                    type="text"
+                                    className="w-full p-3 text-gray-900 focus:outline-none"
+                                    placeholder="Scrivi il nome della città"
+                                    required
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                />
+                                <button
+                                    type="submit"
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold p-3"
+                                >
+                                    Cerca
+                                </button>
+                            </div>
+                        </form>
 
-                <form
-                    className="mb-6"
-                    onSubmit={handleSubmit}
-                >
-                    <div className="
-                        flex items-center 
-                        border border-gray-300 
-                        rounded-lg 
-                        overflow-hidden
-                        "
-                    >
-
-                        {/* Campo per inserire il nome della città */}
-                        <input
-                            type="text"
-                            className="w-full p-3 text-gray-900 focus:outline-none"
-                            placeholder="Scrivi il nome della città"
-                            required
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                        />
-
-                        {/* Bottone per inviare il form */}
-                        <button
-                            type="submit"
-                            className="
-                                bg-blue-600 hover:bg-blue-700 
-                                text-white font-semibold p-3
-                                "
-                        >
-                            Cerca
-                        </button>
+                        {weatherData && (
+                            <WeatherDisplay
+                                city={city}
+                                weatherData={weatherData}
+                                addToFavoriteCities={addToFavoriteCities}
+                            />
+                        )}
                     </div>
-                </form>
 
-                {/* Mostra i dati della previsione meteo */}
-                {weatherData && (
-                    <WeatherDisplay
-                        city={city}
-                        weatherData={weatherData}
-                        addToFavoriteCities={addToFavoriteCities} // passa la funzione come props
-                    />
-                )}
-
-                <FavoriteList favoriteCities={favoriteCities} />
+                    {/* Colonna destra */}
+                    <div className="lg:w-1/3 bg-white p-6 rounded-lg shadow-lg">
+                        <FavoriteList favoriteCities={favoriteCities} />
+                    </div>
+                </div>
             </div>
         </>
     )

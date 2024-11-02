@@ -24,7 +24,8 @@ export default function FavoriteList({ favoriteCities }) {
                             <ul className="text-gray-700 text-sm space-y-1">
                                 <li>Temperatura: {item.weatherData.current.temperature_2m}°C</li>
                                 <li>Umidità: {item.weatherData.current.relative_humidity_2m}%</li>
-                                <li>Pioggia: {item.weatherData.current.rain} mm</li>
+                                <li>Vento: {item.weatherData.current.precipitation}km/h</li>
+                                <li>Condizione: {item.weatherData.current.weather_code}</li>
                             </ul>
                         </li>
                     ))}
