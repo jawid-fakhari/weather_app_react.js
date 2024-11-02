@@ -7,7 +7,7 @@ export default function FavoriteList({ favoriteCities, removeFromFavorites }) {
     }
 
     return (
-        <div className="mt-8">
+        <div className="mt-8 ">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
                 Città Preferite
             </h3>
@@ -20,25 +20,25 @@ export default function FavoriteList({ favoriteCities, removeFromFavorites }) {
                     {favoriteCities.map((item, index, id) => (
                         <li
                             key={index}
-                            id={index}
-                            className="bg-white p-4 border rounded-lg shadow-sm"
+                            className="bg-blue-50 p-6 border border-gray-200 rounded-lg shadow-md transition duration-200 hover:shadow-lg"
                         >
-                            <h4 className="text-lg font-semibold text-gray-700">
-                                {item.city}
-                            </h4>
+                            <div className="flex items-center justify-between mb-3">
+                                <h4 className="text-lg font-semibold text-gray-700">
+                                    {item.city}
+                                </h4>
+                                <button
+                                    className="bg-red-500 hover:bg-red-600 text-white font-semibold text-xs py-1 px-3 rounded-full shadow-sm transition duration-200"
+                                    onClick={() => { deleteHandler(index) }}
+                                >
+                                    Elimina
+                                </button>
+                            </div>
                             <ul className="text-gray-700 text-sm space-y-1">
                                 <li>Temperatura: {item.weatherDataInfo.temperatura}°C</li>
                                 <li>Umidità: {item.weatherDataInfo.umidità}%</li>
                                 <li>Vento: {item.weatherDataInfo.vento}km/h</li>
                                 <li>Condizione: {item.weatherDataInfo.condizione}</li>
                             </ul>
-
-                            <button
-                                className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold p-3"
-                                onClick={() => { deleteHandler(index) }}
-                            >
-                                Elimina
-                            </button>
                         </li>
                     ))}
                 </ul>
