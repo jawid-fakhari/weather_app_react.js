@@ -36,6 +36,11 @@ export default function Search() {
         return savedCities ? JSON.parse(savedCities) : [];
     });
 
+    // elimina una città dalla lista dei preferiti
+    const removeFromFavorites = (index) => {
+        setFavoriteCities(prevFavorites => [...prevFavorites.slice(0, index), ...prevFavorites.slice(index + 1)]);
+    }
+
     // salva i preferiti nel localStorage ogni volta che favoriteCities cambia
     useEffect(() => {
         localStorage.setItem('favoriteCities', JSON.stringify(favoriteCities));
@@ -78,7 +83,7 @@ export default function Search() {
 
                     {/* Colonna destra */}
                     <div className="lg:w-1/3 bg-white p-6 rounded-lg shadow-lg">
-                        <FavoriteList favoriteCities={favoriteCities} />
+                        <FavoriteList favoriteCities={favoriteCities} removeFromFavorites={removeFromFavorites} />
                     </div>
                 </div>
             </div>
