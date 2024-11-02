@@ -9,6 +9,19 @@ export default function Search() {
     const [weatherData, setWeatherData] = useState('');
     const [favoriteCities, setFavoriteCities] = useState([]);
 
+    // carica i preferiti da localStorage se c'è
+    useEffect(() => {
+        const savedCities = localStorage.getItem('favoriteCities');
+        if (savedCities) {
+            setFavoriteCities(JSON.parse(savedCities));
+        }
+    }, []);
+
+    // salva i preferiti nel localStorage
+    useEffect(() => {
+        localStorage.setItem('favoriteCities', JSON.stringify(favoriteCities));
+    }, [favoriteCities]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -23,10 +36,11 @@ export default function Search() {
     }
 
     const addToFavoriteCities = (city, weatherData) => {
+        const isAlreadyFavorite = favoriteCities.some(fav => fav.city === city);
         // verifica se la città è già nella lista dei preferiti
-        if (!favoriteCities.includes(city)) {
-            // aggiungi la città alla lista
-            setFavoriteCities([...favoriteCities, { city, weatherData }]);
+        if (!isAlreadyFavorite) {
+            // aggiungi la città alla lista dei preferiti
+            setFavoriteCities(prevFavorites => [...favoriteCities, { city, weatherData }]);
         }
     }
 

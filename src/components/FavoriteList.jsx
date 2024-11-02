@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function FavoriteList({ favoriteCities }) {
-    console.log(favoriteCities);
 
     return (
         <div className="mt-10">
