@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function WeatherDisplay({ city, weatherData, addToFavoriteCities }) {
+export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
     function findCondition(weatherCode) {
         // Ottieni la condizione macro (per esempio, sole, pioggia, neve, ecc.)
@@ -18,6 +18,7 @@ export default function WeatherDisplay({ city, weatherData, addToFavoriteCities 
     }
 
     const weatherDataInfo = {
+        city: weatherData.location.city,
         temperatura: weatherData.current.temperature_2m,
         umidità: weatherData.current.relative_humidity_2m,
         vento: weatherData.current.wind_speed_10m,
@@ -27,13 +28,15 @@ export default function WeatherDisplay({ city, weatherData, addToFavoriteCities 
     // funzione per salvare la città preferita con i dati del weather
     const addButtonHandler = () => {
         // Passa city e weatherDataInfo tramite callback function al Search (addToFavoriteCities)
-        addToFavoriteCities(city, weatherDataInfo)
+        addToFavoriteCities(weatherDataInfo.city, weatherDataInfo)
     }
 
     return (
         <>
             <div className="bg-blue-50 p-4 mb-6 rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold text-blue-700 mb-2">Previsioni meteo a {city}</h3>
+                <h3 className="text-lg font-semibold text-blue-700 mb-2">
+                    Previsioni meteo di {weatherDataInfo.city}
+                </h3>
                 <ul className="text-gray-800 space-y-1">
                     <p>Temperatura: {weatherDataInfo.temperatura}°C</p>
                     <p>Umidità: {weatherDataInfo.umidità}%</p>

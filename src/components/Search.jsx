@@ -74,7 +74,6 @@ export default function Search() {
 
                         {weatherData && (
                             <WeatherDisplay
-                                city={city}
                                 weatherData={weatherData}
                                 addToFavoriteCities={addToFavoriteCities}
                             />

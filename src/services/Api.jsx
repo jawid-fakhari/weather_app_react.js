@@ -25,5 +25,9 @@ export async function getCurrentWeather({ city }) {
     // ottieni i dati della previsione meteo
     const { data } = await clientWeather(`/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,cloud_cover,wind_speed_10m,weather_code&hourly=temperature_2m`);
 
+    // add city to the data
+    data.location = { city: city }
+
+
     return data;
 }
