@@ -7,20 +7,6 @@ import FavoriteList from './FavoriteList';
 export default function Search() {
     const [city, setCity] = useState('');
     const [weatherData, setWeatherData] = useState('');
-    const [favoriteCities, setFavoriteCities] = useState([]);
-
-    // carica i preferiti da localStorage se c'è
-    useEffect(() => {
-        const savedCities = localStorage.getItem('favoriteCities');
-        if (savedCities) {
-            setFavoriteCities(JSON.parse(savedCities));
-        }
-    }, []);
-
-    // salva i preferiti nel localStorage
-    useEffect(() => {
-        localStorage.setItem('favoriteCities', JSON.stringify(favoriteCities));
-    }, [favoriteCities]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -44,7 +30,16 @@ export default function Search() {
         }
     }
 
+    // carica i preferiti da localStorage come stato iniziale con un callback function che carica i dati solo al primo rendering.
+    const [favoriteCities, setFavoriteCities] = useState(() => {
+        const savedCities = localStorage.getItem('favoriteCities');
+        return savedCities ? JSON.parse(savedCities) : [];
+    });
 
+    // salva i preferiti nel localStorage ogni volta che favoriteCities cambia
+    useEffect(() => {
+        localStorage.setItem('favoriteCities', JSON.stringify(favoriteCities));
+    }, [favoriteCities]);
 
     return (
         <>
