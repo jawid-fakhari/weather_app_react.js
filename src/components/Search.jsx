@@ -43,26 +43,34 @@ export default function Search() {
 
     return (
         <>
-            <div className="max-w-md mx-auto mt-20">
+            <div className="
+                max-w-lg mx-auto 
+                mt-20 p-4 
+                bg-white 
+                shadow-lg 
+                rounded-lg
+                "
+            >
 
-                <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
-                    <div className="relative">
+                <form
+                    className="mb-6"
+                    onSubmit={handleSubmit}
+                >
+                    <div className="
+                        flex items-center 
+                        border border-gray-300 
+                        rounded-lg 
+                        overflow-hidden
+                        "
+                    >
 
                         {/* Campo per inserire il nome della città */}
                         <input
                             type="text"
-                            className="
-                            block w-full p-4 ps-10 
-                            text-sm text-gray-900 
-                            border border-gray-300 rounded-lg 
-                            bg-gray-50 focus:ring-blue-500
-                            focus:border-blue-500 dark:bg-gray-700
-                            dark:border-gray-600 dark:placeholder-gray-400
-                            dark:text-white dark:focus:ring-blue-500 
-                            dark:focus:border-blue-500
-                            "
+                            className="w-full p-3 text-gray-900 focus:outline-none"
                             placeholder="Scrivi il nome della città"
-                            required value={city}
+                            required
+                            value={city}
                             onChange={(e) => setCity(e.target.value)}
                         />
 
@@ -70,11 +78,9 @@ export default function Search() {
                         <button
                             type="submit"
                             className="
-                            text-white absolute end-2.5 bottom-2.5 
-                            bg-blue-700 hover:bg-blue-800 
-                            focus:ring-4 focus:outline-none focus:ring-blue-300 
-                            font-medium rounded-lg text-sm px-4 py-2 
-                            dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                bg-blue-600 hover:bg-blue-700 
+                                text-white font-semibold p-3
+                                "
                         >
                             Cerca
                         </button>
