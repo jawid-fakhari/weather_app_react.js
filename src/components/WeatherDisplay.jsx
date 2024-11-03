@@ -54,31 +54,42 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
     return (
         <>
-            <div className="bg-blue-50 p-4 mb-6 rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold text-blue-700 mb-2">
+            <div className="bg-blue-50 p-6 mb-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold text-blue-700 mb-4">
                     Previsioni meteo di {currentWeatherInfo.city}
                 </h3>
-                <ul className="text-gray-800 space-y-1">
-                    <p>Temperatura: {currentWeatherInfo.temperatura}°C</p>
-                    <p>Umidità: {currentWeatherInfo.umidità}%</p>
-                    <p>Vento: {currentWeatherInfo.vento}km/h</p>
-                    <p>Condizioni: {currentWeatherInfo.condizione}</p>
+                <ul className="text-gray-800 space-y-2">
+                    <li className="flex justify-between items-center">
+                        <span className="font-medium">Temperatura:</span>
+                        <span className="text-lg font-semibold">{currentWeatherInfo.temperatura}°C</span>
+                    </li>
+                    <li className="flex justify-between items-center">
+                        <span className="font-medium">Umidità:</span>
+                        <span className="text-lg font-semibold">{currentWeatherInfo.umidità}%</span>
+                    </li>
+                    <li className="flex justify-between items-center">
+                        <span className="font-medium">Vento:</span>
+                        <span className="text-lg font-semibold">{currentWeatherInfo.vento} km/h</span>
+                    </li>
+                    <li className="flex justify-between items-center">
+                        <span className="font-medium">Condizioni:</span>
+                        <span className="text-lg font-semibold">{currentWeatherInfo.condizione}</span>
+                    </li>
                 </ul>
-                {/* Add Button per lista dei preferiti*/}
+
                 <button
-                    className="
-                        mt-4 py-2 px-4
-                        bg-green-600 hover:bg-green-700 
-                        text-white font-semibold
-                        rounded-lg 
-                        transition duration-200
-                        "
+                    className="mt-6 w-full py-3 bg-green-600 hover:bg-green-700 
+                text-white font-semibold rounded-lg transition duration-200 shadow-md"
                     onClick={addButtonHandler}
                 >
                     Aggiungi ai preferiti
                 </button>
-                <Forecast forecastData={currentWeatherInfo.forcast24Temp} />
+
+                <div className="mt-8">
+                    <Forecast forecastData={currentWeatherInfo.forcast24Temp} />
+                </div>
             </div>
+
         </>
     )
 }
