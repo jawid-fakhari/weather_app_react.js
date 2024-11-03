@@ -24,8 +24,16 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
         // Estrai solo l'orario da time
         const ore = time.map(hour => hour.slice(-5))
 
-        // Crea un oggetto con le ore come key name e le temperature come valori
-        return Object.fromEntries(ore.map((ora, index) => [ora, temp[index]]))
+        // ora attuale
+        const now = new Date().toTimeString().slice(0, 5);
+
+        // filtra solo le ore successivi 
+        const futureOre = ore.filter(ora => ora > now);
+
+        // Crea un oggetto con le ore come key name e le temperature come valori 
+        const completeForcast = Object.fromEntries(futureOre.map((ora, index) => [ora, temp[ore.indexOf(ora)]]));
+
+        return completeForcast;
     }
 
     const currentWeatherInfo = {
