@@ -2,8 +2,9 @@ import React from 'react'
 
 export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
+
+    // Ottieni la condizione macro (per esempio, sole, pioggia, neve, ecc.)
     function findCondition(weatherCode) {
-        // Ottieni la condizione macro (per esempio, sole, pioggia, neve, ecc.)
         const macroCondition = {
             Soleggiato: [0, 1, 2, 3], // Cielo sereno o parzialmente nuvoloso
             Nebbia: [45, 48],        // Nebbia e nebbia con brina
@@ -17,12 +18,27 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
         return condition;
     }
 
+    // Funzione per calcolare la temperatura per prossimi ore
+    function forcastObject(time, temp) {
+        const ore = []
+        for (const hour of time) {
+            ore.push(hour.slice(-5))
+        }
+
+        // Crea un oggetto con le ore come key name e le temperature come valori
+        const forcastTemperature = Object.fromEntries(ore.map((ora, index) => [ora, temp[index]]))
+
+        return forcastTemperature;
+    }
+
     const weatherDataInfo = {
         city: weatherData.location.city,
         temperatura: weatherData.current.temperature_2m,
         umidità: weatherData.current.relative_humidity_2m,
         vento: weatherData.current.wind_speed_10m,
         condizione: findCondition(weatherData.current.weather_code),
+        // usare solo l'orario del forcastTime da 0-23 che combacia con forcastTemp
+        forcast24Temp: forcastObject(weatherData.hourly.time, weatherData.hourly.temperature_2m)
     };
 
     // funzione per salvare la città preferita con i dati del weather
@@ -56,6 +72,18 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 >
                     Aggiungi ai preferiti
                 </button>
+                <div className="">
+                    {/* Forcast prossimi ore */}
+                    {
+                        // Mostra solo l'orario del forcastTime da 0-23 che combacia con forcastTemp
+                        Object.entries(weatherDataInfo.forcast24Temp).map(([ora, temp]) => (
+                            <div key={ora} className="flex justify-center gap-4">
+                                <p>{ora}</p>
+                                <p>{temp}°C</p>
+                            </div>
+                        ))
+                    }
+                </div>
             </div>
         </>
     )

@@ -23,11 +23,9 @@ export async function getCurrentWeather({ city }) {
     const longitude = geoLocResponse.data.results[0].longitude;
 
     // ottieni i dati della previsione meteo
-    const { data } = await clientWeather(`/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,cloud_cover,wind_speed_10m,weather_code&hourly=temperature_2m`);
+    const { data } = await clientWeather(`/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,cloud_cover,wind_speed_10m,weather_code&hourly&hourly=temperature_2m&forecast_days=1`);
 
     // add city to the data
     data.location = { city: city }
-
-
     return data;
 }
