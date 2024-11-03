@@ -1,4 +1,5 @@
 import React from 'react'
+import Forecast from './Forecast';
 
 export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
@@ -20,18 +21,14 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
     // Funzione per calcolare la temperatura per prossimi ore
     function forcastObject(time, temp) {
-        const ore = []
-        for (const hour of time) {
-            ore.push(hour.slice(-5))
-        }
+        // Estrai solo l'orario da time
+        const ore = time.map(hour => hour.slice(-5))
 
         // Crea un oggetto con le ore come key name e le temperature come valori
-        const forcastTemperature = Object.fromEntries(ore.map((ora, index) => [ora, temp[index]]))
-
-        return forcastTemperature;
+        return Object.fromEntries(ore.map((ora, index) => [ora, temp[index]]))
     }
 
-    const weatherDataInfo = {
+    const currentWeatherInfo = {
         city: weatherData.location.city,
         temperatura: weatherData.current.temperature_2m,
         umidità: weatherData.current.relative_humidity_2m,
@@ -43,21 +40,21 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
     // funzione per salvare la città preferita con i dati del weather
     const addButtonHandler = () => {
-        // Passa city e weatherDataInfo tramite callback function al Search (addToFavoriteCities)
-        addToFavoriteCities(weatherDataInfo.city, weatherDataInfo)
+        // Passa city e currentWeatherInfo tramite callback function al Search (addToFavoriteCities)
+        addToFavoriteCities(currentWeatherInfo.city, currentWeatherInfo)
     }
 
     return (
         <>
             <div className="bg-blue-50 p-4 mb-6 rounded-lg shadow-md">
                 <h3 className="text-lg font-semibold text-blue-700 mb-2">
-                    Previsioni meteo di {weatherDataInfo.city}
+                    Previsioni meteo di {currentWeatherInfo.city}
                 </h3>
                 <ul className="text-gray-800 space-y-1">
-                    <p>Temperatura: {weatherDataInfo.temperatura}°C</p>
-                    <p>Umidità: {weatherDataInfo.umidità}%</p>
-                    <p>Vento: {weatherDataInfo.vento}km/h</p>
-                    <p>Condizioni: {weatherDataInfo.condizione}</p>
+                    <p>Temperatura: {currentWeatherInfo.temperatura}°C</p>
+                    <p>Umidità: {currentWeatherInfo.umidità}%</p>
+                    <p>Vento: {currentWeatherInfo.vento}km/h</p>
+                    <p>Condizioni: {currentWeatherInfo.condizione}</p>
                 </ul>
                 {/* Add Button per lista dei preferiti*/}
                 <button
@@ -72,18 +69,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 >
                     Aggiungi ai preferiti
                 </button>
-                <div className="">
-                    {/* Forcast prossimi ore */}
-                    {
-                        // Mostra solo l'orario del forcastTime da 0-23 che combacia con forcastTemp
-                        Object.entries(weatherDataInfo.forcast24Temp).map(([ora, temp]) => (
-                            <div key={ora} className="flex justify-center gap-4">
-                                <p>{ora}</p>
-                                <p>{temp}°C</p>
-                            </div>
-                        ))
-                    }
-                </div>
+                <Forecast forecastData={currentWeatherInfo.forcast24Temp} />
             </div>
         </>
     )
