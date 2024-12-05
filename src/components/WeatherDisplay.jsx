@@ -7,10 +7,10 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
     // Ottieni la condizione macro (per esempio, sole, pioggia, neve, ecc.)
     function findCondition(weatherCode) {
         const macroCondition = {
-            Soleggiato: [0, 1, 2, 3], // Cielo sereno o parzialmente nuvoloso
-            Nebbia: [45, 48],        // Nebbia e nebbia con brina
-            Pioggia: [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99], // Pioggia e temporali, con o senza grandine
-            Neve: [71, 73, 75, 77, 85, 86] // Neve
+            Sunny: [0, 1, 2, 3], // Cielo sereno o parzialmente nuvoloso
+            Foggy: [45, 48],        // Nebbia e nebbia con brina
+            Rainy: [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99], // Pioggia e temporali, con o senza grandine
+            Snowy: [71, 73, 75, 77, 85, 86] // Neve
         }
 
         // Cerca la condizione macro nella mappa condizioni
@@ -54,25 +54,25 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
     return (
         <>
-            <div className="bg-blue-50 p-6 mb-6 rounded-lg shadow-md">
+            <div className="bg-blue-50 p-6 mt-7 bg-opacity-45 rounded-lg shadow-md ">
                 <h3 className="text-xl font-semibold text-blue-700 mb-4">
-                    Previsioni meteo di {currentWeatherInfo.city}
+                    {currentWeatherInfo.city}
                 </h3>
                 <ul className="text-gray-800 space-y-2">
                     <li className="flex justify-between items-center">
-                        <span className="font-medium">Temperatura:</span>
+                        <span className="font-medium">Temperature:</span>
                         <span className="text-lg font-semibold">{currentWeatherInfo.temperatura}°C</span>
                     </li>
                     <li className="flex justify-between items-center">
-                        <span className="font-medium">Umidità:</span>
+                        <span className="font-medium">Humidity:</span>
                         <span className="text-lg font-semibold">{currentWeatherInfo.umidità}%</span>
                     </li>
                     <li className="flex justify-between items-center">
-                        <span className="font-medium">Vento:</span>
+                        <span className="font-medium">Wind:</span>
                         <span className="text-lg font-semibold">{currentWeatherInfo.vento} km/h</span>
                     </li>
                     <li className="flex justify-between items-center">
-                        <span className="font-medium">Condizioni:</span>
+                        <span className="font-medium">Conditions:</span>
                         <span className="text-lg font-semibold">{currentWeatherInfo.condizione}</span>
                     </li>
                 </ul>
@@ -82,7 +82,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 text-white font-semibold rounded-lg transition duration-200 shadow-md"
                     onClick={addButtonHandler}
                 >
-                    Aggiungi ai preferiti
+                    Add to favorites
                 </button>
 
                 <div className="mt-8">

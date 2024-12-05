@@ -1,21 +1,9 @@
-import { Html, OrbitControls } from "@react-three/drei"
-import Search from "./components/Search"
-import { Canvas } from "@react-three/fiber"
-import { Suspense } from "react"
-import Background from "./components/Background"
+import Home from "./pages/Home"
+
 
 export default function App() {
-    return (
-        <Canvas camera={{ position: [0, 0, 5] }} className="">
-            <Suspense>
-                <ambientLight />
-                <OrbitControls />
-                <Background />
+    return <>
+        <Home />
+    </>
 
-                {/* <Html>
-                    <Search />
-                </Html> */}
-            </Suspense>
-        </Canvas>
-    )
 }
