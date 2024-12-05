@@ -54,7 +54,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
     return (
         <>
-            <div className="bg-blue-50 p-6 mt-7 bg-opacity-45 rounded-lg shadow-md ">
+            <div className="bg-blue-50 p-6 mt-7 bg-opacity-75 rounded-lg shadow-md ">
                 <h3 className="text-xl font-semibold text-blue-700 mb-4">
                     {currentWeatherInfo.city}
                 </h3>
@@ -85,9 +85,9 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                     Add to favorites
                 </button>
 
-                <div className="mt-8">
-                    <Forecast forecastData={currentWeatherInfo.forcast24Temp} />
-                </div>
+            </div>
+            <div className="mt-7">
+                <Forecast forecastData={currentWeatherInfo.forcast24Temp} />
             </div>
 
         </>

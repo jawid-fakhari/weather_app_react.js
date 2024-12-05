@@ -49,7 +49,10 @@ export default function Search() {
     return (
         <>
             {/* Colonna sinistra */}
-            <div className='absolute inset-0 flex-col items-start justify-start m-7 lg:w-2/5'>
+            <div className='
+            absolute inset-0 flex-col items-start justify-start m-7 
+            sm:w-[550px]'
+            >
                 <form
                     onSubmit={handleSubmit}
                     className="border-hidden"
