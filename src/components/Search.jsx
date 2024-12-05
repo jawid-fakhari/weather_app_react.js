@@ -50,8 +50,9 @@ export default function Search() {
         <>
             {/* Colonna sinistra */}
             <div className='
-            absolute inset-0 flex-col items-start justify-start m-7 
-            sm:w-[550px]'
+            absolute inset-0 flex-col items-start justify-center mt-7 mx-auto w-2/3
+            border-2 border-red-500
+            '
             >
                 <form
                     onSubmit={handleSubmit}
