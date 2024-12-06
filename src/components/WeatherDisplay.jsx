@@ -1,6 +1,7 @@
 import React from 'react'
 import Forecast from './Forecast';
 import { RiSunLine, RiRainyLine, RiFoggyLine, RiSnowyLine, RiWindyLine } from "react-icons/ri";
+import { FiSunset, FiSunrise } from "react-icons/fi";
 
 export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
@@ -67,12 +68,13 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
     // shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]
     return (
         <div className='text-white'>
+            {/* first section */}
             <div className="first-section flex justify-between items-center">
                 <div className="condition
                 bg-gray-500 bg-opacity-50
-                condition w-20 h-20 rounded-full 
+                condition w-16 h-16 rounded-full 
                 flex justify-center items-center
-                shadow-[2px_1.5px_1.5px_rgba(255,255,255,0.5)]
+                shadow-[rgba(255,255,255,0.5)_2px_1.5px_1.5px]
                 "
                 >
                     <div className="text-lg font-semibold">{currentWeatherInfo.conditions}</div>
@@ -83,7 +85,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 <div className="wind">
                     <div className="wind-icon
                     bg-gray-500 bg-opacity-50
-                    condition w-20 h-20 rounded-full 
+                    condition w-16 h-16 rounded-full 
                     flex justify-center items-center
                     shadow-[2px_1.5px_1.5px_rgba(255,255,255,0.5)]
                     mt-9
@@ -95,15 +97,40 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 </div>
             </div>
 
-            <div className="second-section flex justify-between">
-                <div className="sunrise">sunrise</div>
+            {/* second section */}
+            <div className="second-section flex justify-between mt-20 border-2">
+                <div className="sunrise 
+                    bg-gray-500 bg-opacity-50
+                    condition w-16 h-48 rounded-full 
+                    flex flex-col justify-center items-center
+                    shadow-[2px_1.5px_1.5px_rgba(255,255,255,0.5)]
+                    "
+                >
+                    <div className="flex-col">
+                        <FiSunrise size="32" color="#ffffff" />
+                        <div className="text-lg font-semibold">6:24</div>
+                    </div>
+                </div>
+
                 <div className="daily-condition">
                     <div className="text-lg font-semibold">{currentWeatherInfo.conditions}</div>
                     <div className="text-lg font-semibold">{currentWeatherInfo.humidty}%</div>
                 </div>
-                <div className="sunshine">sunshine</div>
+
+                <div className="sunshine
+                    bg-gray-500 bg-opacity-50
+                    condition w-16 h-48 rounded-full 
+                    flex flex-col justify-center items-center
+                    shadow-[2px_1.5px_1.5px_rgba(255,255,255,0.5)]
+                    "
+                >
+                    <FiSunset size="32" color="#ffffff" />
+                    <div className="text-lg font-semibold">17:24</div>
+                </div>
+
             </div>
 
+            {/* forecast section */}
             <div className="forecast-tomorrow">
                 tomorrow
                 <Forecast forecastData={currentWeatherInfo.forcast24Temp} />
