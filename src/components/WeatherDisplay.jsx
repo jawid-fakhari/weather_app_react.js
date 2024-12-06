@@ -1,12 +1,12 @@
 import React from 'react'
-import Forecast from './Forecast';
 import { RiSunLine, RiRainyLine, RiFoggyLine, RiSnowyLine, RiWindyLine } from "react-icons/ri";
 import { FiSunset, FiSunrise } from "react-icons/fi";
+import ForecastHourly from './ForecastHourly';
 
 export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
     // Funzione per calcolare la temperatura per prossimi ore
-    function forcastObject(time, temp) {
+    function forcastObject(time, temp, precip) {
         // Estrai solo l'orario da time
         const ore = time.map(hour => hour.slice(-5))
 
@@ -16,8 +16,11 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
         // filtra solo le ore successivi 
         const futureOre = ore.filter(ora => ora > now);
 
-        // Crea un oggetto con le ore come key name e le temperature come valori 
-        const completeForcast = Object.fromEntries(futureOre.map((ora, index) => [ora, temp[ore.indexOf(ora)]]));
+        // Crea un oggett con le ore come key name e l'array di temperatura e probabilità di preceipitazione
+        const completeForcast = Object.fromEntries(futureOre.map((ora, index) => [ora, [
+            temp[ore.indexOf(ora)],
+            precip[ore.indexOf(ora)],
+        ]]));
 
         return completeForcast;
     }
@@ -29,7 +32,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
         wind: weatherData.current.wind_speed_10m,
         conditions: findCondition(weatherData.current.weather_code),
         // usare solo l'orario del forcastTime da 0-23 che combacia con forcastTemp
-        forcast24Temp: forcastObject(weatherData.hourly.time, weatherData.hourly.temperature_2m)
+        forcast24Temp: forcastObject(weatherData.hourly.time, weatherData.hourly.temperature_2m, weatherData.hourly.precipitation_probability)
     };
 
     // Ottieni la condizione macro (per esempio, sole, pioggia, neve, ecc.)
@@ -71,10 +74,10 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
             {/* first section */}
             <div className="first-section flex justify-between items-center">
                 <div className="condition
-                bg-gray-500 bg-opacity-50
+                bg-custom-gray-50
                 condition w-16 h-16 rounded-full 
                 flex justify-center items-center
-                shadow-[rgba(255,255,255,0.5)_2px_1.5px_1.5px]
+                shadow-custom-top-left
                 "
                 >
                     <div className="text-lg font-semibold">{currentWeatherInfo.conditions}</div>
@@ -84,48 +87,51 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 </div>
                 <div className="wind">
                     <div className="wind-icon
-                    bg-gray-500 bg-opacity-50
+                    bg-custom-gray-50
                     condition w-16 h-16 rounded-full 
                     flex justify-center items-center
-                    shadow-[2px_1.5px_1.5px_rgba(255,255,255,0.5)]
+                    shadow-custom-top-left
                     mt-9
                     "
                     >
                         <RiWindyLine size="32" color="#ffffff" />
                     </div>
-                    <div className="text-center text-lg font-semibold mt-2">{currentWeatherInfo.wind}km/h</div>
+                    <div className="text-center text-base font-semibold mt-2">{currentWeatherInfo.wind}km/h</div>
                 </div>
             </div>
 
             {/* second section */}
-            <div className="second-section flex justify-between mt-20 border-2">
-                <div className="sunrise 
-                    bg-gray-500 bg-opacity-50
+            <div className="second-section flex justify-between mt-20">
+                <div className="sunrise-sunset 
+                    bg-custom-gray-50
                     condition w-16 h-48 rounded-full 
-                    flex flex-col justify-center items-center
-                    shadow-[2px_1.5px_1.5px_rgba(255,255,255,0.5)]
+                    flex flex-col justify-center items-center gap-9
+                    shadow-custom-top-left
                     "
                 >
-                    <div className="flex-col">
-                        <FiSunrise size="32" color="#ffffff" />
-                        <div className="text-lg font-semibold">6:24</div>
+                    <div className='flex flex-col justify-center items-center'>
+                        <FiSunrise size="25" color="#ffffff" />
+                        <div className="text-base font-semibold">6:24</div>
+                    </div>
+                    <div className='flex flex-col justify-center items-center'>
+                        <FiSunset size="25" color="#ffffff" />
+                        <div className="text-base font-semibold">17:24</div>
                     </div>
                 </div>
 
-                <div className="daily-condition">
-                    <div className="text-lg font-semibold">{currentWeatherInfo.conditions}</div>
-                    <div className="text-lg font-semibold">{currentWeatherInfo.humidty}%</div>
+                <div className="forecast-hourly w-full flex justify-center">
+                    <ForecastHourly forecastData={currentWeatherInfo.forcast24Temp} />
                 </div>
 
-                <div className="sunshine
-                    bg-gray-500 bg-opacity-50
-                    condition w-16 h-48 rounded-full 
+                <div className="humidity
+                    bg-custom-gray-50
+                    w-16 h-48 rounded-full 
                     flex flex-col justify-center items-center
-                    shadow-[2px_1.5px_1.5px_rgba(255,255,255,0.5)]
+                    shadow-custom-top-left
                     "
                 >
-                    <FiSunset size="32" color="#ffffff" />
-                    <div className="text-lg font-semibold">17:24</div>
+                    <div className="text-lg font-semibold">{currentWeatherInfo.humidty}%</div>
+
                 </div>
 
             </div>
@@ -133,7 +139,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
             {/* forecast section */}
             <div className="forecast-tomorrow">
                 tomorrow
-                <Forecast forecastData={currentWeatherInfo.forcast24Temp} />
+                <ForecastHourly forecastData={currentWeatherInfo.forcast24Temp} />
             </div>
 
             <button
