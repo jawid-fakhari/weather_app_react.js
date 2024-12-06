@@ -5,13 +5,18 @@ import ForecastHourly from './ForecastHourly';
 
 export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
+    console.log(weatherData);
+
+
     // Funzione per calcolare la temperatura per prossimi ore
-    function forcastObject(time, temp, precip) {
+    function forcastObject(time, temp, precip, currentTime) {
+        console.log(currentTime);
+
         // Estrai solo l'orario da time
         const ore = time.map(hour => hour.slice(-5))
 
         // ora attuale
-        const now = new Date().toTimeString().slice(0, 5);
+        const now = currentTime;
 
         // filtra solo le ore successivi 
         const futureOre = ore.filter(ora => ora > now);
@@ -32,8 +37,16 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
         wind: weatherData.current.wind_speed_10m,
         conditions: findCondition(weatherData.current.weather_code),
         // usare solo l'orario del forcastTime da 0-23 che combacia con forcastTemp
-        forcast24Temp: forcastObject(weatherData.hourly.time, weatherData.hourly.temperature_2m, weatherData.hourly.precipitation_probability)
+        forcast24Temp: forcastObject(
+            weatherData.hourly.time,
+            weatherData.hourly.temperature_2m,
+            weatherData.hourly.precipitation_probability,
+            weatherData.current.time.slice(-5)
+        ),
+        sunrise: weatherData.daily.sunrise.map(time => time.slice(-5)),
+        sunset: weatherData.daily.sunset.map(time => time.slice(-5)),
     };
+
 
     // Ottieni la condizione macro (per esempio, sole, pioggia, neve, ecc.)
     function findCondition(weatherCode) {
@@ -111,15 +124,15 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 >
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunrise size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">6:24</div>
+                        <div className="text-base font-semibold">{currentWeatherInfo.sunrise}</div>
                     </div>
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunset size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">17:24</div>
+                        <div className="text-base font-semibold">{currentWeatherInfo.sunset}</div>
                     </div>
                 </div>
 
-                <div className="forecast-hourly w-full flex justify-center">
+                <div className="forecast-hourly w-full flex justify-center overflow-auto">
                     <ForecastHourly forecastData={currentWeatherInfo.forcast24Temp} />
                 </div>
 
