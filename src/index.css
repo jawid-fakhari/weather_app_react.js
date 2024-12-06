@@ -8,5 +8,15 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+}
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none; /* Nascondi scrollbar su WebKit */
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none; /* Nascondi scrollbar su IE e Edge */
+        scrollbar-width: none; /* Nascondi scrollbar su Firefox */
+    }
 }

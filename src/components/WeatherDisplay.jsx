@@ -132,7 +132,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                     </div>
                 </div>
 
-                <div className="forecast-hourly w-full flex justify-center overflow-auto">
+                <div className="forecast-hourly w-full flex justify-center">
                     <ForecastHourly forecastData={currentWeatherInfo.forcast24Temp} />
                 </div>
 
