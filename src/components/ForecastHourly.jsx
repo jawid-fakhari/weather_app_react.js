@@ -1,5 +1,4 @@
 import React from 'react';
-import { RiSunLine, RiRainyLine, RiFoggyLine, RiSnowyLine } from "react-icons/ri";
 
 
 export default function ForecastHourly({ forecastData }) {
@@ -10,10 +9,11 @@ export default function ForecastHourly({ forecastData }) {
     function iterator(data) {
         const map = new Map(Object.entries(data));
         return [...map].map(([hour, [...values]]) =>
-            <div key={hour} className="media-element ">
+            <div key={hour} className="media-element space-y-5">
                 <p>{values[0]}°C</p>
+                <p className='flex justify-center'>{values[2]}</p>
                 <p>{values[1]}%</p>
-                <div className="text-lg font-semibold">{values[2]}</div>
+                <p>{hour}</p>
             </div>
         );
 
