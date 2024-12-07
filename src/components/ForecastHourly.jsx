@@ -1,8 +1,10 @@
 import React from 'react';
-
+import { RiSunLine, RiRainyLine, RiFoggyLine, RiSnowyLine } from "react-icons/ri";
 
 
 export default function ForecastHourly({ forecastData }) {
+    console.log(forecastData);
+
 
     // forecastData with hours as key name and an array of temprature and precipitation probability as value 
     function iterator(data) {
@@ -11,7 +13,7 @@ export default function ForecastHourly({ forecastData }) {
             <div key={hour} className="media-element ">
                 <p>{values[0]}°C</p>
                 <p>{values[1]}%</p>
-                <p>{hour}</p>
+                <div className="text-lg font-semibold">{values[2]}</div>
             </div>
         );
 

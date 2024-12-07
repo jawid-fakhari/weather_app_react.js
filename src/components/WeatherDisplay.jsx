@@ -1,16 +1,14 @@
 import React from 'react'
 import { RiSunLine, RiRainyLine, RiFoggyLine, RiSnowyLine, RiWindyLine } from "react-icons/ri";
-import { FiSunset, FiSunrise } from "react-icons/fi";
+import { FiSunset, FiSunrise, FiDroplet } from "react-icons/fi";
 import ForecastHourly from './ForecastHourly';
 
 export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
     console.log(weatherData);
 
-
     // Funzione per calcolare la temperatura per prossimi ore
-    function forcastObject(time, temp, precip, currentTime) {
-        console.log(currentTime);
+    function forcastObject(time, temp, precip, hourlyCondition, currentTime) {
 
         // Estrai solo l'orario da time
         const ore = time.map(hour => hour.slice(-5))
@@ -25,22 +23,24 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
         const completeForcast = Object.fromEntries(futureOre.map((ora, index) => [ora, [
             temp[ore.indexOf(ora)],
             precip[ore.indexOf(ora)],
+            hourlyCondition[ore.indexOf(ora)],
         ]]));
 
         return completeForcast;
     }
 
-    const currentWeatherInfo = {
+    const weatherDataReq = {
         city: weatherData.location.city,
         temperature: weatherData.current.temperature_2m,
         humidty: weatherData.current.relative_humidity_2m,
         wind: weatherData.current.wind_speed_10m,
-        conditions: findCondition(weatherData.current.weather_code),
+        currentCondition: findCondition(weatherData.current.weather_code),
         // usare solo l'orario del forcastTime da 0-23 che combacia con forcastTemp
         forcast24Temp: forcastObject(
             weatherData.hourly.time,
             weatherData.hourly.temperature_2m,
             weatherData.hourly.precipitation_probability,
+            weatherData.hourly.weather_code.map(code => findCondition(code)),
             weatherData.current.time.slice(-5)
         ),
         sunrise: weatherData.daily.sunrise.map(time => time.slice(-5)),
@@ -77,8 +77,8 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
     // funzione per salvare la città preferita con i dati del weather
     const addButtonHandler = () => {
-        // Passa city e currentWeatherInfo tramite callback function al Search (addToFavoriteCities)
-        addToFavoriteCities(currentWeatherInfo.city, currentWeatherInfo)
+        // Passa city e weatherDataReq tramite callback function al Search (addToFavoriteCities)
+        addToFavoriteCities(weatherDataReq.city, weatherDataReq)
     }
     // box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     // shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]
@@ -93,10 +93,10 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 shadow-custom-top-left
                 "
                 >
-                    <div className="text-lg font-semibold">{currentWeatherInfo.conditions}</div>
+                    <div className="text-lg font-semibold">{weatherDataReq.currentCondition}</div>
                 </div>
                 <div className="temperature">
-                    <div className="text-9xl font-semibold">{currentWeatherInfo.temperature}<span className='text-gray-400'>°</span></div>
+                    <div className="text-9xl font-semibold">{weatherDataReq.temperature}<span className='text-gray-400'>°</span></div>
                 </div>
                 <div className="wind">
                     <div className="wind-icon
@@ -109,7 +109,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                     >
                         <RiWindyLine size="32" color="#ffffff" />
                     </div>
-                    <div className="text-center text-base font-semibold mt-2">{currentWeatherInfo.wind}km/h</div>
+                    <div className="text-center text-base font-semibold mt-2">{weatherDataReq.wind}km/h</div>
                 </div>
             </div>
 
@@ -124,16 +124,16 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 >
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunrise size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">{currentWeatherInfo.sunrise}</div>
+                        <div className="text-base font-semibold">{weatherDataReq.sunrise}</div>
                     </div>
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunset size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">{currentWeatherInfo.sunset}</div>
+                        <div className="text-base font-semibold">{weatherDataReq.sunset}</div>
                     </div>
                 </div>
 
                 <div className="forecast-hourly w-full flex justify-center">
-                    <ForecastHourly forecastData={currentWeatherInfo.forcast24Temp} />
+                    <ForecastHourly forecastData={weatherDataReq.forcast24Temp} />
                 </div>
 
                 <div className="humidity
@@ -143,16 +143,18 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                     shadow-custom-top-left
                     "
                 >
-                    <div className="text-lg font-semibold">{currentWeatherInfo.humidty}%</div>
-
+                    <div className="w-8 h-8 rounded-full border-2 flex justify-center items-center">
+                        <FiDroplet size="20" color="#ffffff" />
+                    </div>
+                    <div className="text-base font-semibold">{weatherDataReq.humidty}%</div>
                 </div>
 
             </div>
 
             {/* forecast section */}
-            <div className="forecast-tomorrow">
+            <div className="forecast-tomorrow mt-20 border-2">
                 tomorrow
-                <ForecastHourly forecastData={currentWeatherInfo.forcast24Temp} />
+                <ForecastHourly forecastData={weatherDataReq.forcast24Temp} />
             </div>
 
             <button
