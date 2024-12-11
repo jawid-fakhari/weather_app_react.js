@@ -16,8 +16,6 @@ export default function ForecastHourly({ forecastData }) {
                 <p>{hour}</p>
             </div>
         );
-
-
     }
 
     return (

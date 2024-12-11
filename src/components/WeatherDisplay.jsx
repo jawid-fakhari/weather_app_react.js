@@ -5,30 +5,7 @@ import ForecastHourly from './ForecastHourly';
 import DailyForecast from './DailyForecast';
 
 export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
-
     console.log(weatherData);
-
-    // Funzione per calcolare la temperatura per prossimi ore
-    function forcastObject(time, temp, precip, hourlyCondition, currentTime) {
-
-        // Estrai solo l'orario da time
-        const ore = time.map(hour => hour.slice(-5))
-
-        // ora attuale
-        const now = currentTime;
-
-        // filtra solo le ore successivi 
-        const futureOre = ore.filter(ora => ora > now);
-
-        // Crea un oggett con le ore come key name e l'array di temperatura e probabilità di preceipitazione
-        const completeForcast = Object.fromEntries(futureOre.map((ora, index) => [ora, [
-            temp[ore.indexOf(ora)],
-            precip[ore.indexOf(ora)],
-            hourlyCondition[ore.indexOf(ora)],
-        ]]));
-
-        return completeForcast;
-    }
 
     const weatherDataReq = {
         city: weatherData.location.city,
@@ -37,16 +14,61 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
         wind: weatherData.current.wind_speed_10m,
         currentCondition: findCondition(weatherData.current.weather_code),
         // usare solo l'orario del forcastTime da 0-23 che combacia con forcastTemp
-        forcast24Temp: forcastObject(
-            weatherData.hourly.time,
-            weatherData.hourly.temperature_2m,
-            weatherData.hourly.precipitation_probability,
-            weatherData.hourly.weather_code.map(code => findCondition(code)),
-            weatherData.current.time.slice(-5)
+        hourlyForecastData: forecastObject(
+            weatherData.hourly,
+            weatherData.current.time.slice(-5),
         ),
-        sunrise: weatherData.daily.sunrise.map(time => time.slice(-5)),
-        sunset: weatherData.daily.sunset.map(time => time.slice(-5)),
+        dailyForecastData: weeklyForecastObject(
+            weatherData.daily
+        )
     };
+
+    function weeklyForecastObject(data) {
+        // sunrise: weatherData.daily.sunrise.map(time => time.slice(-5)),
+        // sunset: weatherData.daily.sunset.map(time => time.slice(-5)),
+        const sunriseArray = data.sunrise.map(time => time.slice(-5));
+        const sunsetArray = data.sunset.map(time => time.slice(-5));
+        const maxTemperature = data.temperature_2m_max;
+        const minTemperature = data.temperature_2m_min;
+        const date = data.time;
+        const weatherCondition = data.weather_code;
+        const dailyForecast = Object.fromEntries(date.map((day, index) => {
+            return [day, [
+                sunriseArray[index],
+                sunsetArray[index],
+                maxTemperature[index],
+                minTemperature[index],
+                findCondition(weatherCondition[index]),
+            ]];
+        }));
+
+        console.log(dailyForecast);
+        return dailyForecast;
+    }
+
+    function forecastObject(data, currentTime) {
+        // Extract only the first 24 hours
+        const next24Hours = data.time.slice(0, 24).map(time => time.slice(-5));
+        const currentIndex = next24Hours.findIndex(time => time > currentTime);
+
+        // Get future hours starting from the current hour
+        const futureHours = next24Hours.slice(currentIndex);
+
+        // Create forecast object
+        const completeForecast = Object.fromEntries(futureHours.map((hour, index) => {
+            const actualIndex = currentIndex + index;
+            return [hour, [
+                data.temperature_2m[actualIndex],
+                data.precipitation_probability[actualIndex],
+                findCondition(data.weather_code[actualIndex]),
+            ]];
+        }));
+
+        console.log(completeForecast);
+
+
+        return completeForecast;
+    }
 
 
     // Ottieni la condizione macro (per esempio, sole, pioggia, neve, ecc.)
@@ -124,16 +146,16 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 >
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunrise size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">{weatherDataReq.sunrise[0]}</div>
+                        <div className="text-base font-semibold">Sunrise</div>
                     </div>
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunset size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">{weatherDataReq.sunset[0]}</div>
+                        {/* <div className="text-base font-semibold">{weatherDataReq.sunset[0]}</div> */}
                     </div>
                 </div>
                 {/* Hourly forecast section */}
                 <div className="forecast-hourly w-full flex justify-center">
-                    <ForecastHourly forecastData={weatherDataReq.forcast24Temp} />
+                    <ForecastHourly forecastData={weatherDataReq.hourlyForecastData} />
                 </div>
 
                 <div className="humidity
@@ -154,7 +176,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
             {/* Daily forecast section */}
             <div className="forecast-tomorrow mt-20 border-2">
                 tomorrow
-                <DailyForecast forecastData={weatherDataReq.forcast24Temp} />
+                <DailyForecast forecastData={weatherDataReq.dailyForecastData} />
             </div>
 
             <button
