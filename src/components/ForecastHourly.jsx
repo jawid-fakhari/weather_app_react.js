@@ -26,8 +26,7 @@ export default function ForecastHourly({ forecastData }) {
             grid grid-flow-col [grid-auto-columns:23%] text-center items-center
             overflow-x-auto overscroll-contain
             [scroll-snap-type:inline_mandatory]
-            no-scrollbar
-            '
+            no-scrollbar w-3/4'
             >
                 {iterator(forecastData)}
             </div>

@@ -2,6 +2,7 @@ import React from 'react'
 import { RiSunLine, RiRainyLine, RiFoggyLine, RiSnowyLine, RiWindyLine } from "react-icons/ri";
 import { FiSunset, FiSunrise, FiDroplet } from "react-icons/fi";
 import ForecastHourly from './ForecastHourly';
+import DailyForecast from './DailyForecast';
 
 export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
@@ -72,7 +73,6 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
             default:
                 return <p>Condition not found</p>
         }
-
     }
 
     // funzione per salvare la città preferita con i dati del weather
@@ -124,14 +124,14 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 >
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunrise size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">{weatherDataReq.sunrise}</div>
+                        <div className="text-base font-semibold">{weatherDataReq.sunrise[0]}</div>
                     </div>
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunset size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">{weatherDataReq.sunset}</div>
+                        <div className="text-base font-semibold">{weatherDataReq.sunset[0]}</div>
                     </div>
                 </div>
-
+                {/* Hourly forecast section */}
                 <div className="forecast-hourly w-full flex justify-center">
                     <ForecastHourly forecastData={weatherDataReq.forcast24Temp} />
                 </div>
@@ -151,10 +151,10 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
             </div>
 
-            {/* forecast section */}
+            {/* Daily forecast section */}
             <div className="forecast-tomorrow mt-20 border-2">
                 tomorrow
-                <ForecastHourly forecastData={weatherDataReq.forcast24Temp} />
+                <DailyForecast forecastData={weatherDataReq.forcast24Temp} />
             </div>
 
             <button
