@@ -7,15 +7,17 @@ export default function DailyForecast({ forecastData }) {
         const map = new Map(Object.entries(data));
         return [...map].map(([date, [...values]]) =>
             <div key={date} className="media-element space-y-5">
-                <p>Max{values[2]}</p>
-                <p className='flex justify-center'>{values[4]}</p>
-                <p>Min{values[3]}</p>
+                <p className='flex justify-center'>{values[2]}</p>
+                <p>{values[0]}</p>
+                <p>{values[1]}</p>
                 <p>{date}</p>
             </div>
         );
     }
     return (
-        <div className="bg-custom-gray-50 shadow-custom-top-left h-full w-11/12 flex justify-around rounded-3xl">
+        <div className="bg-custom-gray-50 shadow-custom-top-left 
+        h-full flex justify-around rounded-3xl py-5"
+        >
             <div className='media-scroller
             grid grid-flow-col [grid-auto-columns:23%] text-center items-center
             overflow-x-auto overscroll-contain

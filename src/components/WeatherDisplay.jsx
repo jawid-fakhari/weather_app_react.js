@@ -12,6 +12,8 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
         temperature: weatherData.current.temperature_2m,
         humidty: weatherData.current.relative_humidity_2m,
         wind: weatherData.current.wind_speed_10m,
+        sunrise: weatherData.daily.sunrise.map(time => time.slice(-5)),
+        sunset: weatherData.daily.sunset.map(time => time.slice(-5)),
         currentCondition: findCondition(weatherData.current.weather_code),
         // usare solo l'orario del forcastTime da 0-23 che combacia con forcastTemp
         hourlyForecastData: forecastObject(
@@ -24,18 +26,17 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
     };
 
     function weeklyForecastObject(data) {
-        // sunrise: weatherData.daily.sunrise.map(time => time.slice(-5)),
-        // sunset: weatherData.daily.sunset.map(time => time.slice(-5)),
-        const sunriseArray = data.sunrise.map(time => time.slice(-5));
-        const sunsetArray = data.sunset.map(time => time.slice(-5));
+
         const maxTemperature = data.temperature_2m_max;
         const minTemperature = data.temperature_2m_min;
-        const date = data.time;
+
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dates = data.time.map(dateString => new Date(dateString));
+        const days = dates.map(date => daysOfWeek[date.getDay()]);
+
         const weatherCondition = data.weather_code;
-        const dailyForecast = Object.fromEntries(date.map((day, index) => {
+        const dailyForecast = Object.fromEntries(days.map((day, index) => {
             return [day, [
-                sunriseArray[index],
-                sunsetArray[index],
                 maxTemperature[index],
                 minTemperature[index],
                 findCondition(weatherCondition[index]),
@@ -146,11 +147,11 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 >
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunrise size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">Sunrise</div>
+                        <div className="text-base font-semibold">{weatherDataReq.sunrise[0]}</div>
                     </div>
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunset size="25" color="#ffffff" />
-                        {/* <div className="text-base font-semibold">{weatherDataReq.sunset[0]}</div> */}
+                        <div className="text-base font-semibold">{weatherDataReq.sunset[0]}</div>
                     </div>
                 </div>
                 {/* Hourly forecast section */}
@@ -174,8 +175,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
             </div>
 
             {/* Daily forecast section */}
-            <div className="forecast-tomorrow mt-20 border-2">
-                tomorrow
+            <div className="forecast-daily mt-20">
                 <DailyForecast forecastData={weatherDataReq.dailyForecastData} />
             </div>
 
