@@ -103,7 +103,11 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
     return (
         <div className='text-white'>
             {/* first section */}
-            <div className="first-section flex justify-between items-center">
+            <div className="first-section 
+            flex flex-wrap justify-between items-center mt-7
+            md:flex-nowrap
+            "
+            >
 
                 {/* condition */}
                 <div className="condition
@@ -119,7 +123,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 </div>
 
                 {/* current temerature */}
-                <div className="temperature">
+                <div className="temperature order-first w-full text-center md:order-none md:w-1/2 ">
                     <div className="text-9xl font-semibold">
                         {weatherDataReq.temperature}
                         <span className='text-gray-400'>°</span>
@@ -144,8 +148,8 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
 
             {/* second section */}
             <div className="second-section
-            flex flex-wrap
-            xl:flex-nowrap justify-between items-center mt-20
+            flex flex-wrap justify-between items-center mt-7
+            xl:flex-nowrap md:mt-20
             "
             >
 
