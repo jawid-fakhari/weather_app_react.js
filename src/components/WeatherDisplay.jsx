@@ -94,10 +94,10 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
     }
 
     // funzione per salvare la città preferita con i dati del weather
-    const addButtonHandler = () => {
-        // Passa city e weatherDataReq tramite callback function al Search (addToFavoriteCities)
-        addToFavoriteCities(weatherDataReq.city, weatherDataReq)
-    }
+    // const addButtonHandler = () => {
+    //     // Passa city e weatherDataReq tramite callback function al Search (addToFavoriteCities)
+    //     addToFavoriteCities(weatherDataReq.city, weatherDataReq)
+    // }
     // box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     // shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]
     return (
