@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getCurrentWeather } from '../services/Api';
 import WeatherDisplay from './WeatherDisplay';
-import FavoriteList from './FavoriteList';
+// import FavoriteList from './FavoriteList';
 
 
 export default function Search() {
