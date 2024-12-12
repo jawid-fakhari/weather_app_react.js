@@ -50,7 +50,8 @@ export default function Search() {
         <>
             {/* Colonna sinistra */}
             <div className='
-            absolute inset-0 flex-col items-start justify-center mt-7 mx-auto w-1/2
+            absolute inset-0 flex-col items-start justify-center mt-7 mx-auto w-5/6 
+            md:w-1/2 
             '
             >
                 <form
@@ -83,7 +84,6 @@ export default function Search() {
                     />
                 )}
             </div>
-
 
             {/* Colonna destra */}
             {/* <div

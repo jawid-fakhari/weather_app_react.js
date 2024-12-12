@@ -101,7 +101,7 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
     // box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     // shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]
     return (
-        <div className='text-white'>
+        <div className='text-white pb-7'>
             {/* first section */}
             <div className="first-section 
             flex flex-wrap justify-between items-center mt-7
@@ -213,13 +213,13 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 />
             </div>
 
-            <button
+            {/* <button
                 className="mt-6 w-full py-3 bg-green-600 hover:bg-green-700 
                 text-white font-semibold rounded-lg transition duration-200 shadow-md"
                 onClick={addButtonHandler}
             >
                 Add to favorites
-            </button>
+            </button> */}
 
         </div>
     )
