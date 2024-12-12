@@ -6,7 +6,7 @@ export default function DailyForecast({ forecastData }) {
         const map = new Map(Object.entries(data));
         return [...map].map(([date, [...values]]) =>
             <div key={date} className="media-element space-y-5">
-                <p className='flex justify-center'>{values[2]}</p>
+                <p className='flex justify-center '>{values[2]}</p>
                 <p>{values[0]}</p>
                 <p>{values[1]}</p>
                 <p>{date}</p>
