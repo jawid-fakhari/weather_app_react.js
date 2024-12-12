@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function DailyForecast({ forecastData }) {
-    console.log(forecastData);
 
     function iterator(data) {
         const map = new Map(Object.entries(data));

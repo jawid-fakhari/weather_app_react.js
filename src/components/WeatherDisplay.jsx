@@ -5,7 +5,6 @@ import ForecastHourly from './ForecastHourly';
 import DailyForecast from './DailyForecast';
 
 export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
-    console.log(weatherData);
 
     const weatherDataReq = {
         city: weatherData.location.city,
@@ -43,7 +42,6 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
             ]];
         }));
 
-        console.log(dailyForecast);
         return dailyForecast;
     }
 
@@ -64,9 +62,6 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 findCondition(data.weather_code[actualIndex]),
             ]];
         }));
-
-        console.log(completeForecast);
-
 
         return completeForecast;
     }
@@ -109,6 +104,8 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
         <div className='text-white'>
             {/* first section */}
             <div className="first-section flex justify-between items-center">
+
+                {/* condition */}
                 <div className="condition
                 bg-custom-gray-50
                 condition w-16 h-16 rounded-full 
@@ -116,11 +113,20 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 shadow-custom-top-left
                 "
                 >
-                    <div className="text-lg font-semibold">{weatherDataReq.currentCondition}</div>
+                    <div className="text-lg font-semibold">
+                        {weatherDataReq.currentCondition}
+                    </div>
                 </div>
+
+                {/* current temerature */}
                 <div className="temperature">
-                    <div className="text-9xl font-semibold">{weatherDataReq.temperature}<span className='text-gray-400'>°</span></div>
+                    <div className="text-9xl font-semibold">
+                        {weatherDataReq.temperature}
+                        <span className='text-gray-400'>°</span>
+                    </div>
                 </div>
+
+                {/* current wind condition */}
                 <div className="wind">
                     <div className="wind-icon
                     bg-custom-gray-50
@@ -137,7 +143,13 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
             </div>
 
             {/* second section */}
-            <div className="second-section flex justify-between mt-20">
+            <div className="second-section
+            flex flex-wrap
+            xl:flex-nowrap justify-between items-center mt-20
+            "
+            >
+
+                {/* sunrise-sunset */}
                 <div className="sunrise-sunset 
                     bg-custom-gray-50
                     condition w-16 h-48 rounded-full 
@@ -147,26 +159,42 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
                 >
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunrise size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">{weatherDataReq.sunrise[0]}</div>
+                        <div className="text-base font-semibold">
+                            {weatherDataReq.sunrise[0]}
+                        </div>
                     </div>
                     <div className='flex flex-col justify-center items-center'>
                         <FiSunset size="25" color="#ffffff" />
-                        <div className="text-base font-semibold">{weatherDataReq.sunset[0]}</div>
+                        <div className="text-base font-semibold">
+                            {weatherDataReq.sunset[0]}
+                        </div>
                     </div>
                 </div>
+
                 {/* Hourly forecast section */}
-                <div className="forecast-hourly w-full flex justify-center">
-                    <ForecastHourly forecastData={weatherDataReq.hourlyForecastData} />
+                <div className="
+                forecast-hourly w-full flex justify-center 
+                order-first mb-7
+                xl:order-none xl:mb-0
+                "
+                >
+                    <ForecastHourly
+                        forecastData={weatherDataReq.hourlyForecastData}
+                    />
                 </div>
 
+                {/* humidty */}
                 <div className="humidity
                     bg-custom-gray-50
-                    w-16 h-48 rounded-full 
+                    w-16 h-48 rounded-full
                     flex flex-col justify-center items-center
                     shadow-custom-top-left
                     "
                 >
-                    <div className="w-8 h-8 rounded-full border-2 flex justify-center items-center">
+                    <div
+                        className="w-8 h-8 rounded-full border-2 flex
+                        justify-center items-center"
+                    >
                         <FiDroplet size="20" color="#ffffff" />
                     </div>
                     <div className="text-base font-semibold">{weatherDataReq.humidty}%</div>
@@ -175,8 +203,10 @@ export default function WeatherDisplay({ weatherData, addToFavoriteCities }) {
             </div>
 
             {/* Daily forecast section */}
-            <div className="forecast-daily mt-20">
-                <DailyForecast forecastData={weatherDataReq.dailyForecastData} />
+            <div className="forecast-daily mt-7 xl:mt-20">
+                <DailyForecast
+                    forecastData={weatherDataReq.dailyForecastData}
+                />
             </div>
 
             <button

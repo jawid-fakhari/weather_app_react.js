@@ -2,7 +2,6 @@ import React from 'react';
 
 
 export default function ForecastHourly({ forecastData }) {
-    console.log(forecastData);
 
 
     // forecastData with hours as key name and an array of temprature and precipitation probability as value 
@@ -19,7 +18,12 @@ export default function ForecastHourly({ forecastData }) {
     }
 
     return (
-        <div className="bg-custom-gray-50 shadow-custom-top-left h-full w-11/12 flex justify-around rounded-3xl">
+        <div className="
+        bg-custom-gray-50 shadow-custom-top-left 
+        h-fullw w-full flex justify-around rounded-3xl py-3
+        xl:w-11/12
+        "
+        >
             <div className='media-scroller
             grid grid-flow-col [grid-auto-columns:23%] text-center items-center
             overflow-x-auto overscroll-contain
