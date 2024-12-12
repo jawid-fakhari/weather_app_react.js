@@ -56,13 +56,19 @@ export default function Search() {
             >
                 <form
                     onSubmit={handleSubmit}
-                    className="border-hidden"
+                    className="flex justify-end"
                 >
-                    <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                    <div className="flex
+                    rounded-lg overflow-hidden w-1/2 
+                    shadow-custom-top-left
+                    "
+                    >
                         <input
                             type="text"
-                            className="w-full p-3 text-white font-semibold focus:outline-none bg-transparent"
-                            placeholder="Search your city..."
+                            className="
+                            w-full p-3 text-white font-semibold focus:outline-none 
+                            bg-custom-gray-50
+                            "
                             required
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
